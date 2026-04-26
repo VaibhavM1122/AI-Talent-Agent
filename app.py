@@ -1,114 +1,113 @@
 import streamlit as st
 import pandas as pd
+import time
 
 from parser import parse_jd
 from matcher import compute_match_scores
 from chat_agent import simulate_interest
 from ranking import calculate_final_score
 
-# Page config
 st.set_page_config(page_title="AI Talent Agent", layout="wide")
 
-# Custom CSS 
-st.markdown("""
-    <style>
-    .main {
-        background-color: #f5f7fa;
-    }
-    .title {
-        font-size: 40px;
-        font-weight: bold;
-        color: #2c3e50;
-    }
-    .card {
-        padding: 20px;
-        border-radius: 12px;
-        background-color: white;
-        box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
 # Title
-st.markdown('<div class="title">🤖 AI Talent Scouting & Engagement Agent</div>', unsafe_allow_html=True)
+st.title("🤖 AI Talent Scouting & Engagement Agent")
 
-# Layout
-col1, col2 = st.columns([2, 1])
+# Sidebar filters
+st.sidebar.header("🔎 Filters")
 
-# LEFT SIDE - INPUT
-with col1:
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.subheader("📄 Enter Job Description")
-    jd_text = st.text_area("Paste JD here", height=150)
-    find_btn = st.button("🔍 Find Candidates")
-    st.markdown('</div>', unsafe_allow_html=True)
+role_filter = st.sidebar.selectbox(
+    "Select Role",
+    ["All", "Data Analyst", "Java Developer", "Frontend Developer", "Cloud Engineer"]
+)
 
-# RIGHT SIDE - INFO PANEL
-with col2:
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.subheader("ℹ️ How it works")
-    st.write("""
-    - Parses Job Description  
-    - Matches candidates using AI similarity  
-    - Simulates candidate interest  
-    - Ranks candidates based on score  
-    """)
-    st.markdown('</div>', unsafe_allow_html=True)
+min_exp = st.sidebar.slider("Minimum Experience (Years)", 0, 5, 0)
 
-# PROCESS
+# Input section
+st.subheader("📄 Enter Job Description")
+jd_text = st.text_area("Paste job description here...", height=150)
+
+find_btn = st.button("🚀 Find Candidates")
+
 if find_btn:
+
     if not jd_text:
         st.warning("⚠️ Please enter a Job Description")
     else:
         df = pd.read_csv("data/candidates.csv")
 
-        profiles = df["profile"].tolist()
-        match_scores = compute_match_scores(jd_text, profiles)
+        # Apply filters
+        if role_filter != "All":
+            df = df[df["role"] == role_filter]
 
-        results = []
+        df = df[df["experience"] >= min_exp]
 
-        for i, row in df.iterrows():
-            name = row["name"]
-            match_score = match_scores[i]
+        if df.empty:
+            st.error("❌ No candidates match selected filters")
+        else:
+            # Simulate AI processing
+            progress = st.progress(0)
+            for i in range(100):
+                time.sleep(0.01)
+                progress.progress(i + 1)
 
-            interest_text, interest_score = simulate_interest(name)
-            final_score = calculate_final_score(match_score, interest_score)
+            profiles = df["profile"].tolist()
+            roles = df["role"].tolist()
 
-            explanation = f"{name} matches key skills from JD"
+            match_scores = compute_match_scores(jd_text, profiles, roles)
 
-            results.append({
-                "Name": name,
-                "Match Score": round(match_score, 2),
-                "Interest": interest_text,
-                "Final Score": round(final_score, 2),
-                "Explanation": explanation
-            })
+            results = []
 
-        result_df = pd.DataFrame(results)
-        result_df = result_df.sort_values(by="Final Score", ascending=False)
+            for i, row in df.iterrows():
+                name = row["name"]
+                match_score = match_scores[i]
 
-        # SUCCESS MESSAGE
-        st.success("✅ Candidates matched successfully!")
+                interest_text, interest_score = simulate_interest(name)
+                final_score = calculate_final_score(match_score, interest_score)
 
-        # TOP CANDIDATE CARD 🔥
-        top = result_df.iloc[0]
+                # Highlight matched skills
+                matched_skills = []
+                for skill in row["skills"].split():
+                    if skill.lower() in jd_text.lower():
+                        matched_skills.append(skill)
 
-        st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.subheader("🏆 Top Candidate")
+                explanation = f"Matched skills: {', '.join(matched_skills) if matched_skills else 'General match'}"
 
-        c1, c2, c3 = st.columns(3)
-        c1.metric("Name", top["Name"])
-        c2.metric("Match Score", top["Match Score"])
-        c3.metric("Final Score", top["Final Score"])
+                results.append({
+                    "Name": name,
+                    "Role": row["role"],
+                    "Experience": row["experience"],
+                    "Location": row["location"],
+                    "Match Score": round(match_score, 2),
+                    "Interest": interest_text,
+                    "Final Score": round(final_score, 2),
+                    "Explanation": explanation
+                })
 
-        st.write(f"💡 {top['Explanation']}")
-        st.markdown('</div>', unsafe_allow_html=True)
+            result_df = pd.DataFrame(results)
+            result_df = result_df.sort_values(by="Final Score", ascending=False)
 
-        # FULL TABLE
-        st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.subheader("📊 Ranked Candidates")
+            st.success("✅ Candidates matched successfully!")
 
-        st.dataframe(result_df, use_container_width=True)
+            # Top candidate highlight
+            top = result_df.iloc[0]
 
-        st.markdown('</div>', unsafe_allow_html=True)
+            st.subheader("🏆 Top Candidate")
+            col1, col2, col3 = st.columns(3)
+            col1.metric("Name", top["Name"])
+            col2.metric("Role", top["Role"])
+            col3.metric("Final Score", top["Final Score"])
+
+            st.write(f"💡 {top['Explanation']}")
+
+            # Show table
+            st.subheader("📊 Ranked Candidates")
+            st.dataframe(result_df, use_container_width=True)
+
+            # Expandable details
+            with st.expander("🔍 View Detailed Candidate Info"):
+                for _, row in result_df.iterrows():
+                    st.write(f"**{row['Name']} ({row['Role']})**")
+                    st.write(f"Experience: {row['Experience']} years")
+                    st.write(f"Location: {row['Location']}")
+                    st.write(f"Score: {row['Final Score']}")
+                    st.write("---")
