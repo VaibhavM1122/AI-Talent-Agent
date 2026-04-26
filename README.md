@@ -102,7 +102,7 @@ AI-Talent-Agent/
 1. Clone the repository:
 
 ```
-git clone https://github.com/YOUR_USERNAME/AI-Talent-Agent.git
+git clone https://github.com/VaibhavM1122/AI-Talent-Agent.git
 cd AI-Talent-Agent
 ```
 
