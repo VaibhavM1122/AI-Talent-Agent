@@ -2,7 +2,7 @@
 
 ##  Overview
 
-This project is an AI-driven recruitment assistant that automates the process of talent discovery, engagement, and ranking. It takes a Job Description (JD) as input, identifies the most relevant candidates, simulates their interest, and produces a ranked shortlist based on match quality and engagement level.
+This project is an AI-driven recruitment assistant that automates talent discovery, engagement, and ranking. It takes a Job Description (JD) as input, identifies the most relevant candidates, simulates their interest, and generates a ranked shortlist based on match quality and engagement level.
 
 ---
 
@@ -10,10 +10,10 @@ This project is an AI-driven recruitment assistant that automates the process of
 
 Recruiters spend significant time manually screening profiles and assessing candidate interest. This system reduces that effort by:
 
-* Automatically parsing job descriptions
-* Matching candidates using AI-based similarity
+* Automatically analyzing job descriptions
+* Matching candidates using intelligent text similarity
 * Simulating engagement to estimate interest
-* Generating a ranked shortlist for quick decision-making
+* Generating a ranked shortlist for faster decision-making
 
 ---
 
@@ -26,7 +26,7 @@ Recruiters spend significant time manually screening profiles and assessing cand
 
 ###  Candidate Matching
 
-* Uses **TF-IDF + Cosine Similarity**
+* Lightweight **text similarity matching (no heavy ML dependencies)**
 * Role-based score boosting
 * Matches based on skills, profile, and role relevance
 
@@ -47,9 +47,9 @@ Final Score = 0.7 × Match Score + 0.3 × Interest Score
 
 * Built using Streamlit
 * Sidebar filters (role, experience)
-* Real-time results
+* Real-time candidate ranking
 * Highlighted top candidate
-* Explainable outputs
+* Explainable outputs (matched skills)
 
 ---
 
@@ -58,9 +58,9 @@ Final Score = 0.7 × Match Score + 0.3 × Interest Score
 ```
 User Input (Job Description)
         ↓
-JD Parsing Module
+JD Processing Module
         ↓
-Matching Engine (TF-IDF + Cosine Similarity)
+Matching Engine (Text Similarity + Role Boosting)
         ↓
 Engagement Simulation (Interest Score)
         ↓
@@ -76,7 +76,6 @@ Interactive UI (Streamlit Dashboard)
 * **Python**
 * **Streamlit** (Frontend UI)
 * **Pandas** (Data Handling)
-* **Scikit-learn** (TF-IDF & Similarity)
 
 ---
 
@@ -148,7 +147,16 @@ Looking for Java Developer with Spring Boot and Microservices experience.
 
 * Input: Frontend Developer JD
 * Output: Frontend candidates ranked highest
-* System adapts dynamically to different roles
+* System dynamically adapts to different job roles
+
+---
+
+##  Key Highlight
+
+✔ Supports multiple job roles
+✔ Lightweight and fast (no heavy ML dependencies)
+✔ Explainable matching results
+✔ Interactive recruiter-friendly UI
 
 ---
 
@@ -157,11 +165,12 @@ Looking for Java Developer with Spring Boot and Microservices experience.
 * Integration with real job portals (LinkedIn, Naukri)
 * Real-time chatbot for candidate interaction
 * LLM-based JD parsing (GPT/Gemini)
-* Advanced scoring using embeddings
+* Advanced semantic matching using embeddings
 
 ---
 
-##  Author
+## 👨‍💻 Author
 
 **Vaibhav Mahale**
-- 💼 LinkedIn: [View Profile](https://www.linkedin.com/in/https://www.linkedin.com/in/vaibhavm1122/)
+
+* 💼 LinkedIn: [View Profile](https://www.linkedin.com/in/vaibhavm1122/)
