@@ -101,7 +101,7 @@ if find_btn:
 
             # Show table
             st.subheader("📊 Ranked Candidates")
-            st.dataframe(result_df, use_container_width=True)
+            st.dataframe(result_df, use_container_width=True, hide_index=True)
 
             # Expandable details
             with st.expander("🔍 View Detailed Candidate Info"):
