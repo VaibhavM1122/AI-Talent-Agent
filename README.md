@@ -1,77 +1,100 @@
 # 🤖 AI-Powered Talent Scouting & Engagement Agent
 
-##  Overview
+## Overview
 
-This project is an AI-driven recruitment assistant that automates talent discovery, engagement, and ranking. It takes a Job Description (JD) as input, identifies the most relevant candidates, simulates their interest, and generates a ranked shortlist based on match quality and engagement level.
+This project is an AI-driven recruitment assistant that automates candidate discovery and matching. It takes a Job Description (JD) as input, analyzes requirements, identifies relevant candidates from a dataset, and generates a ranked shortlist based on candidate-job compatibility.
 
----
-
-##  Problem Statement
-
-Recruiters spend significant time manually screening profiles and assessing candidate interest. This system reduces that effort by:
-
-* Automatically analyzing job descriptions
-* Matching candidates using intelligent text similarity
-* Simulating engagement to estimate interest
-* Generating a ranked shortlist for faster decision-making
+The system helps recruiters reduce manual screening effort by providing fast, explainable candidate recommendations.
 
 ---
 
-##  Key Features
+## Problem Statement
 
-###  Job Description Parsing
+Recruiters spend significant time manually reviewing candidate profiles and matching them with job requirements.
 
-* Extracts key skills and requirements from JD
-* Supports multiple roles (Data Analyst, Java Developer, Frontend, Cloud, etc.)
+This system reduces recruitment effort by:
 
-###  Candidate Matching
-
-* Lightweight **text similarity matching (no heavy ML dependencies)**
-* Role-based score boosting
-* Matches based on skills, profile, and role relevance
-
-###  Engagement Simulation
-
-* Simulates candidate responses (Yes / Maybe / No)
-* Converts responses into an **Interest Score**
-
-###  Smart Ranking System
-
-Final Score is calculated as:
-
-```
-Final Score = 0.7 × Match Score + 0.3 × Interest Score
-```
-
-###  Interactive UI
-
-* Built using Streamlit
-* Sidebar filters (role, experience)
-* Real-time candidate ranking
-* Highlighted top candidate
-* Explainable outputs (matched skills)
+- Automatically analyzing job descriptions
+- Extracting relevant skills and requirements
+- Matching candidates using text similarity
+- Ranking candidates based on Match Score
+- Providing explainable matching results
 
 ---
 
-##  System Architecture
+# Key Features
 
-```
+## 📄 Job Description Parsing
+
+- Analyzes job descriptions
+- Extracts important skills and keywords
+- Supports multiple roles:
+  - Data Analyst
+  - Java Developer
+  - Frontend Developer
+  - Cloud Engineer
+  - Backend Developer
+  - DevOps Engineer
+
+---
+
+## 🔍 Candidate Matching
+
+- Uses lightweight text similarity matching
+- Compares job requirements with candidate profiles
+- Applies role-based score boosting
+- Matches candidates based on:
+  - Skills
+  - Profile information
+  - Job role relevance
+
+---
+
+## 📊 Match Score Ranking
+
+Each candidate receives a Match Score based on:
+
+- Number of matching keywords
+- Skill overlap
+- Role relevance
+
+Candidates are sorted from highest to lowest Match Score.
+
+---
+
+## 🎨 Interactive UI
+
+Built using Streamlit:
+
+- Job description input
+- Role filter
+- Experience filter
+- Ranked candidate table
+- Top candidate highlight
+- Matched skill explanation
+
+---
+
+## System Architecture
+
 User Input (Job Description)
-        ↓
+↓
 JD Processing Module
-        ↓
-Matching Engine (Text Similarity + Role Boosting)
-        ↓
-Engagement Simulation (Interest Score)
-        ↓
-Ranking Engine (Final Score Calculation)
-        ↓
-Interactive UI (Streamlit Dashboard)
-```
+↓
+Candidate Dataset (CSV)
+↓
+Matching Engine
+(Text Similarity + Role Boosting)
+↓
+Match Score Calculation
+↓
+Candidate Ranking
+↓
+Streamlit Dashboard
 
 ---
 
-##  Tech Stack
+#  Tech Stack
 
 * **Python**
 * **Streamlit** (Frontend UI)
@@ -83,13 +106,12 @@ Interactive UI (Streamlit Dashboard)
 
 ```
 AI-Talent-Agent/
+
 │── app.py
 │── parser.py
 │── matcher.py
-│── chat_agent.py
-│── ranking.py
 │── data/
-│     └── candidates.csv
+│ └── candidates.csv
 │── README.md
 │── requirements.txt
 ```
@@ -122,10 +144,9 @@ streamlit run app.py
 ```
 http://localhost:8501
 ```
-
 ---
 
-##  Sample Input
+## Sample Input
 
 ```
 Looking for Java Developer with Spring Boot and Microservices experience.
@@ -133,17 +154,16 @@ Looking for Java Developer with Spring Boot and Microservices experience.
 
 ---
 
-##  Sample Output
+## Sample Output
 
+* Student Name 
 * Ranked list of candidates
 * Match Score
-* Interest Score
-* Final Score
 * Explanation of matching
 
 ---
 
-##  Example Use Case
+## Example Use Case
 
 * Input: Frontend Developer JD
 * Output: Frontend candidates ranked highest
@@ -157,15 +177,6 @@ Looking for Java Developer with Spring Boot and Microservices experience.
 ✔ Lightweight and fast (no heavy ML dependencies)
 ✔ Explainable matching results
 ✔ Interactive recruiter-friendly UI
-
----
-
-##  Future Improvements
-
-* Integration with real job portals (LinkedIn, Naukri)
-* Real-time chatbot for candidate interaction
-* LLM-based JD parsing (GPT/Gemini)
-* Advanced semantic matching using embeddings
 
 ---
 
