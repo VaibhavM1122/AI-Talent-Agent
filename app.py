@@ -201,7 +201,7 @@ if find_btn:
 
             st.dataframe(
                 result_df,
-                width="stretch",
+                use_container_width=True,
                 hide_index=True
             )
 
