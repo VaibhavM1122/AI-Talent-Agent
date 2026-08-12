@@ -59,7 +59,7 @@ if find_btn:
 
             for i, row in df.iterrows():
                 name = row["name"]
-                match_score = match_scores[i]
+                match_score = match_scores[i] if i < len(match_scores) else 0
 
                 interest_text, interest_score = simulate_interest(name)
                 final_score = calculate_final_score(match_score, interest_score)
